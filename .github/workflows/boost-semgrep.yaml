@@ -1,0 +1,28 @@
+name: Boost Semgrep Scanner
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  scanner:
+    name: boost
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Execute boost-semgrep
+        uses: boostsecurityio/boostsec-scanner-github@v4.0.2
+        with:
+          registry_module: boostsecurityio/semgrep
+          api_token: ${{ secrets.BOOST_API_TOKEN }}
+          api_endpoint: https://api.dev.boostsec.io
